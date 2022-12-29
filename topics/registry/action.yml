@@ -20,9 +20,9 @@ runs:
   - name: show output
     shell: bash
     run: ls -l /home/runner/work/backend/backend/topics/registry/target
-  - name: show output
-    shell: bash
-    run: ls -l /home/runner/work/backend/backend/topics/registry/target/lambda
+  # - name: show output
+    # shell: bash
+    # run: ls -l /home/runner/work/backend/backend/topics/registry/target/lambda
   # - name: Upload artifacts
   #   uses: actions/upload-artifact@v2
   #   with: 

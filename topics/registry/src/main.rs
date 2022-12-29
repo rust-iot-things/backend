@@ -1,4 +1,4 @@
-use aws_sdk_dynamodb::{model::AttributeValue, output::GetItemOutput};
+use aws_sdk_dynamodb::{model::AttributeValue, output::GetItemOutput};s
 pub use lambda_http::aws_lambda_events::{serde::Deserialize, serde_json};
 use lambda_runtime::{service_fn, Error, LambdaEvent};
 use protocol::{message_request_registartion::RequestRegistrationDescirption, message_set_name};
