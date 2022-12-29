@@ -12,6 +12,9 @@ runs:
   - uses: zerj9/setup-cargo-lambda@v0.1.0
   - uses: Swatinem/rust-cache@v2
   - name: Release Build
+    uses: actions-rs/cargo@v1
+    with:
+      args: --manifest-path topics/registry/Cargo.toml
     shell: bash
     run: cargo lambda build --release --output-format zip
 
