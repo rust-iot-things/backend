@@ -16,6 +16,15 @@ runs:
     run: cargo lambda build --release --output-format zip --manifest-path topics/registry/Cargo.toml
   - name: show output
     shell: bash
+    run: ls -l /home/runner/work/backend
+  - name: show output
+    shell: bash
+    run: ls -l /home/runner/work/backend/backend
+  - name: show output
+    shell: bash
+    run: ls -l /home/runner/work/backend/backend/topics
+  - name: show output
+    shell: bash
     run: ls -l /home/runner/work/backend/backend/topics/registry
   - name: show output
     shell: bash
