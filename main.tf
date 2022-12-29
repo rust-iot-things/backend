@@ -8,3 +8,9 @@ module "registry-lambda" {
   environment = var.environment
   topic = "registry"
 }
+
+module "thing-input-lambda" {
+  source = "./topics/thing_input/terraform"
+  environment = var.environment
+  topic = "thing_input"
+}

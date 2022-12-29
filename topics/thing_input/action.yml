@@ -16,13 +16,13 @@ runs:
   - uses: goto-bus-stop/setup-zig@v2
   - uses: Swatinem/rust-cache@v2
     with:
-      workspaces: "topics/thing-input/target/"
+      workspaces: "topics/thing_input/target/"
   - name: Release Build
     shell: bash
-    run: cargo lambda build --release --output-format=zip --manifest-path=topics/thing-input/Cargo.toml
+    run: cargo lambda build --release --output-format=zip --manifest-path=topics/thing_input/Cargo.toml
   - name: Upload artifacts
     uses: actions/upload-artifact@v2
     with: 
       name: bootstrap.zip
-      path: topics/thing-input/target/lambda/thing_input_lambda
+      path: topics/thing_input/target/lambda/thing_input_lambda
       if-no-files-found: error

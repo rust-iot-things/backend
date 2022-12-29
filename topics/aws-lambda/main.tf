@@ -3,12 +3,12 @@ provider "aws" {
 }
 
 resource "aws_lambda_function" "rust-iot-thing-lambda" {
-  filename         = "topics/registry/target/lambda/${var.topic}_lambda/bootstrap.zip"
+  filename         = "topics/${var.topic}/target/lambda/${var.topic}_lambda/bootstrap.zip"
   function_name    = "rust-iot-thing-${var.topic}-lambda"
   role             = aws_iam_role.rust-iot-thing-role.arn
   handler          = "index.test"
   runtime          = "provided.al2"
-  source_code_hash = filebase64sha256("topics/registry/target/lambda/${var.topic}_lambda/bootstrap.zip")
+  source_code_hash = filebase64sha256("topics/${var.topic}/target/lambda/${var.topic}_lambda/bootstrap.zip")
 }
 
 

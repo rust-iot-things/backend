@@ -31,7 +31,7 @@ jobs:
             - environment: prod
     steps:
       - uses: actions/checkout@v3
-      - uses: ./topics/thing-input/
+      - uses: ./topics/thing_input/
 
   terraform:
     needs: [build-registry, build-thing-input]
@@ -52,6 +52,10 @@ jobs:
         with:
           name: bootstrap.zip
           path: topics/registry/target/lambda/registry_lambda/
+      - uses: actions/download-artifact@v3
+        with:
+          name: bootstrap.zip
+          path: topics/registry/target/lambda/thing_input_lambda/
       - uses: hashicorp/setup-terraform@v1
         with:
           terraform_wrapper: false
