@@ -1,4 +1,4 @@
-name: "Rust IoT Thing Registry Lambda"
+name: "AWS Rust IoT Backend"
 on:
   push:
     branches: [ main ]
@@ -55,7 +55,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: bootstrap.zip
-          path: topics/registry/target/lambda/thing_input_lambda/
+          path: topics/thing_input/target/lambda/thing_input_lambda/
       - uses: hashicorp/setup-terraform@v1
         with:
           terraform_wrapper: false
