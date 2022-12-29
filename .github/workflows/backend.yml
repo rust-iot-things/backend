@@ -19,6 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./topics/registry/
+      - uses: ./topics/thing-input/
   terraform:
     needs: build
     name:   ${{ matrix.environment }}

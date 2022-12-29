@@ -1,6 +1,6 @@
 
-name: "registry lambda"
-description: "Building the registry lambda using rust"
+name: "thing-input lambda"
+description: "Building the thing-input lambda using rust"
 runs:
   using: "composite"
   steps:
@@ -16,14 +16,13 @@ runs:
   - uses: goto-bus-stop/setup-zig@v2
   - uses: Swatinem/rust-cache@v2
     with:
-      workspaces: "topics/registry/target/"
+      workspaces: "topics/thing-input/target/"
   - name: Release Build
     shell: bash
-    run: cargo lambda build --release --output-format=zip --manifest-path=topics/registry/Cargo.toml
+    run: cargo lambda build --release --output-format=zip --manifest-path=topics/thing-input/Cargo.toml
   - name: Upload artifacts
     uses: actions/upload-artifact@v2
     with: 
       name: bootstrap.zip
-      path: topics/registry/target/lambda/registry_lambda
+      path: topics/thing-input/target/lambda/thing_input_lambda
       if-no-files-found: error
-      
