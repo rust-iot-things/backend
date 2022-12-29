@@ -1,41 +1,26 @@
-name: "Rust IoT Thing Registry Lambda"
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
-env:
-  CARGO_TERM_COLOR: always
-
-defaults:
-  run:
+name: "registry lambda"
+description: "Building the registry lambda using rust"
+runs:
+  using: "composite"
+  steps:
+  - uses: actions/checkout@v3
+  - uses: dtolnay/rust-toolchain@stable
+  - uses: goto-bus-stop/setup-zig@v1
+    with:
+      version: 0.9.1
+  - uses: zerj9/setup-cargo-lambda@v0.1.0
+  - uses: Swatinem/rust-cache@v2
+  - name: Release Build
     shell: bash
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 1
-      matrix:
-          include:
-            - environment: prod
-    steps:
-    - uses: actions/checkout@v3
-    - uses: dtolnay/rust-toolchain@stable
-    - uses: goto-bus-stop/setup-zig@v1
-      with:
-        version: 0.9.1
-    - uses: zerj9/setup-cargo-lambda@v0.1.0
-    - uses: Swatinem/rust-cache@v2
-    - name: Release Build
-      run: cargo lambda build --release --output-format zip
+    run: cargo lambda build --release --output-format zip
 
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v2
-      with: 
-        name: bootstrap.zip
-        path: target/lambda/registry_lambda/
-        if-no-files-found: error
+  - name: Upload artifacts
+    uses: actions/upload-artifact@v2
+    with: 
+      name: bootstrap.zip
+      path: target/lambda/registry_lambda/
+      if-no-files-found: error
   # terraform:
   #   needs: build
   #   name:   ${{ matrix.environment }}
