@@ -9,6 +9,15 @@ defaults:
   run:
     shell: bash
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
+      matrix:
+          include:
+            - environment: prod
+    steps: 
+      - uses: ./topics/registry/.github/workflows/registry.yml
   terraform:
     name:   ${{ matrix.environment }}
     runs-on: ubuntu-latest

@@ -1,0 +1,15 @@
+[package]
+name = "registry_lambda"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+lambda_http = { version = "0.7", default-features = false, features = ["apigw_http"] }
+lambda_runtime = "0.7"
+tokio = { version = "1", features = ["macros"] }
+aws-config = "0.51.0"
+aws-sdk-iotdataplane = "0.21.0"
+aws-smithy-types = "0.51.0"
+aws-sdk-dynamodb = "0.21.0"
+aws-smithy-http = "*"
+protocol = { git = "https://github.com/rust-iot-things/protocol" }
