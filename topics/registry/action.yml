@@ -6,14 +6,17 @@ runs:
   steps:
   - uses: actions/checkout@v3
   - uses: dtolnay/rust-toolchain@stable
-  - uses: goto-bus-stop/setup-zig@v1
+  - name: Install Cargo Lambda
+    uses: jaxxstorm/action-install-gh-release@v1.9.0
     with:
-      version: 0.9.1
-  - uses: zerj9/setup-cargo-lambda@v0.1.0
+      repo: cargo-lambda/cargo-lambda
+      tag: v0.14.0
+      platform: linux
+      arch: x86_64
   - uses: Swatinem/rust-cache@v2
   - name: Release Build
     shell: bash
-    run: cargo lambda build --release --output-format zip --manifest-path topics/registry/Cargo.toml
+    run: cargo lambda build --release --output-format zip --manifest-path=topics/registry/Cargo.toml
   - name: show output
     shell: bash
     run: ls -l /home/runner/work/backend
