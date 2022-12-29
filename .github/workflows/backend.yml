@@ -8,8 +8,10 @@ on:
 defaults:
   run:
     shell: bash
+
+
 jobs:
-  build:
+  build-registry:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 1
@@ -19,9 +21,20 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./topics/registry/
+
+  build-thing-input:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
+      matrix:
+          include:
+            - environment: prod
+    steps:
+      - uses: actions/checkout@v3
       - uses: ./topics/thing-input/
+
   terraform:
-    needs: build
+    needs: [build-registry, build-thing-input]
     name:   ${{ matrix.environment }}
     runs-on: ubuntu-latest
     strategy:
