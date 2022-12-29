@@ -16,8 +16,9 @@ jobs:
       matrix:
           include:
             - environment: prod
-    steps: 
-      - uses: ./../../topics/registry/.github/workflows/registry.yml
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./topics/registry/.github/workflows/registry.yml
   terraform:
     name:   ${{ matrix.environment }}
     runs-on: ubuntu-latest
