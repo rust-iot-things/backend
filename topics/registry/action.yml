@@ -13,14 +13,16 @@ runs:
   - uses: Swatinem/rust-cache@v2
   - name: Release Build
     shell: bash
-    run: cargo lambda build --release --output-format zip --manifest-path topics/registry/Cargo.toml --bin
-
-  - name: Upload artifacts
-    uses: actions/upload-artifact@v2
-    with: 
-      name: bootstrap.zip
-      path: topics/registry/target/lambda/registry_lambda
-      if-no-files-found: error
+    run: cargo lambda build --release --output-format zip --manifest-path topics/registry/Cargo.toml
+  - name: show output
+    shell: bash
+    run: ls -l /home/runner/work/backend/backend/topics/registry/target/lambda/registry_lambda/
+  # - name: Upload artifacts
+  #   uses: actions/upload-artifact@v2
+  #   with: 
+  #     name: bootstrap.zip
+  #     path: topics/registry/target/lambda/registry_lambda
+  #     if-no-files-found: error
   # terraform:
   #   needs: build
   #   name:   ${{ matrix.environment }}
