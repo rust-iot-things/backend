@@ -31,13 +31,22 @@ resource "aws_lambda_function" "lambda" {
   runtime = "nodejs16.x"
 }
 
-resource "aws_lambda_permission" "apigw_lambda" {
-  statement_id  = "AllowAPIgatewayInvokation"
+resource "aws_lambda_permission" "apigw_lambda_items" {
+  statement_id  = "APIGatewayItems"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.lambda.function_name
   principal     = "apigateway.amazonaws.com"
 
   source_arn = "${aws_apigatewayv2_api.api.execution_arn}/*/*/items"
+}
+
+resource "aws_lambda_permission" "apigw_lambda_items_id" {
+  statement_id  = "APIGatewayItemsID"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.lambda.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = "${aws_apigatewayv2_api.api.execution_arn}/*/*/items/{id}"
 }
 
 resource "aws_apigatewayv2_api" "api" {
