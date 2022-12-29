@@ -37,7 +37,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: bootstrap.zip
-          path: target/lambda/registry_lambda/
+          path: topics/registry/target/lambda/registry_lambda/
       - uses: hashicorp/setup-terraform@v1
         with:
           terraform_wrapper: false
