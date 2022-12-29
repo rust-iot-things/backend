@@ -19,7 +19,7 @@ runs:
     uses: actions/upload-artifact@v2
     with: 
       name: bootstrap.zip
-      path: target/lambda/registry_lambda/
+      path: topics/registry/target/lambda/registry_lambda
       if-no-files-found: error
   # terraform:
   #   needs: build
