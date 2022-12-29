@@ -20,7 +20,7 @@ runs:
     with: 
       name: bootstrap.zip
       path: topics/registry/target/lambda/registry_lambda
-      if-no-files-found: warn #error
+      if-no-files-found: error
   # terraform:
   #   needs: build
   #   name:   ${{ matrix.environment }}
