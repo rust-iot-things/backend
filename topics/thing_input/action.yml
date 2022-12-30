@@ -16,7 +16,7 @@ runs:
   - uses: goto-bus-stop/setup-zig@v2
   - uses: Swatinem/rust-cache@v2
     with:
-      workspaces: "topics/thing_input/target/"
+      workspaces: "topics/thing_input"
   - name: Release Build
     shell: bash
     run: cargo lambda build --release --output-format=zip --manifest-path=topics/thing_input/Cargo.toml
