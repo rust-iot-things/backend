@@ -26,7 +26,7 @@ async fn func(registry: LambdaEvent<Value>) -> Result<(), Error> {
 
 async fn get_name_by_id(
     dynamodb: aws_sdk_dynamodb::Client,
-    id: u128,
+    id: String,
 ) -> std::result::Result<
     aws_sdk_dynamodb::output::GetItemOutput,
     aws_sdk_dynamodb::types::SdkError<aws_sdk_dynamodb::error::GetItemError>,
@@ -34,16 +34,16 @@ async fn get_name_by_id(
     dynamodb
         .get_item()
         .table_name("Things")
-        .key("id", AttributeValue::N(id.to_string()))
+        .key("id", AttributeValue::S(id.to_string()))
         .attributes_to_get("name")
         .send()
         .await
 }
 
-pub async fn add_thing(client: aws_sdk_dynamodb::Client, id: u128) -> Result<(), Error> {
+pub async fn add_thing(client: aws_sdk_dynamodb::Client, id: String) -> Result<(), Error> {
     let thing_name = "new_thing".to_string();
 
-    let id_av = AttributeValue::N(id.to_string());
+    let id_av = AttributeValue::S(id.to_string());
     let name_av = AttributeValue::S(thing_name);
 
     let result = client
@@ -68,15 +68,15 @@ async fn request_registration(
 ) -> Result<(), Error> {
     println!("> request_registration");
     let id = it.request_requistration.id;
-    let thing_name = get_name(dynamodb, id).await;
+    let thing_name = get_name(dynamodb, id.clone()).await;
     publish_id_name_on_registry(iotdataplane, id, thing_name).await?;
     println!("<>> request_registration");
     Ok(())
 }
 
-async fn get_name(dynamodb: aws_sdk_dynamodb::Client, id: u128) -> String {
+async fn get_name(dynamodb: aws_sdk_dynamodb::Client, id: String) -> String {
     println!("> get name");
-    let query = get_name_by_id(dynamodb.clone(), id).await;
+    let query = get_name_by_id(dynamodb.clone(), id.clone()).await;
 
     match query {
         Ok(item) => match get_name_from_item_output(item) {
@@ -115,7 +115,7 @@ fn get_name_from_item_output(item: GetItemOutput) -> Result<String, String> {
 
 async fn publish_id_name_on_registry(
     iotdataplane: aws_sdk_iotdataplane::Client,
-    id: u128,
+    id: String,
     thing_name: String,
 ) -> std::result::Result<
     aws_sdk_iotdataplane::output::PublishOutput,
@@ -126,7 +126,7 @@ async fn publish_id_name_on_registry(
         .topic("registry")
         .qos(1)
         .payload(aws_smithy_types::Blob::new(message_set_name::create(
-            id,
+            id.to_string(),
             thing_name.to_string(),
         )))
         .send()
