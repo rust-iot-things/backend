@@ -13,10 +13,12 @@ async fn main() -> Result<(), Error> {
 
 async fn func(registry: LambdaEvent<Value>) -> Result<(), Error> {
     let config = aws_config::load_from_env().await;
-    if let Ok(it) = RequestRegistrationDescirption::deserialize(registry.payload) {
+    if let Ok(it) = RequestRegistrationDescirption::deserialize(registry.payload.clone()) {
         let iotdataplane = aws_sdk_iotdataplane::Client::new(&config);
         let dynamodb = aws_sdk_dynamodb::Client::new(&config);
         request_registration(it, iotdataplane.clone(), dynamodb.clone()).await?;
+    } else {
+        println!("can't deserialize payload {:?}", registry.payload);
     }
 
     Ok(())
@@ -64,13 +66,16 @@ async fn request_registration(
     iotdataplane: aws_sdk_iotdataplane::Client,
     dynamodb: aws_sdk_dynamodb::Client,
 ) -> Result<(), Error> {
+    println!("> request_registration");
     let id = it.request_requistration.id;
     let thing_name = get_name(dynamodb, id).await;
     publish_id_name_on_registry(iotdataplane, id, thing_name).await?;
+    println!("<>> request_registration");
     Ok(())
 }
 
 async fn get_name(dynamodb: aws_sdk_dynamodb::Client, id: u128) -> String {
+    println!("> get name");
     let query = get_name_by_id(dynamodb.clone(), id).await;
 
     match query {
