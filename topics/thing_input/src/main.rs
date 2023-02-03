@@ -67,7 +67,7 @@ async fn measurement_humidity(
         .expression_attribute_names("#Measurements", "Measurements")
         .expression_attribute_values(
             ":value",
-            AttributeValue::M(HashMap::from([
+            AttributeValue::L(vec![AttributeValue::M(HashMap::from([
                 (
                     "Timestamp".into(),
                     AttributeValue::S(get_timestamp().into()),
@@ -76,7 +76,7 @@ async fn measurement_humidity(
                     "Value".into(),
                     AttributeValue::N(description.measurement_humidity.humidity.to_string()),
                 ),
-            ])),
+            ]))]),
         )
         .expression_attribute_values(":empty_list", AttributeValue::L(vec![]))
         .return_values(aws_sdk_dynamodb::model::ReturnValue::AllNew)
@@ -108,7 +108,7 @@ async fn measurement_temperature(
         .expression_attribute_names("#Measurements", "Measurements")
         .expression_attribute_values(
             ":value",
-            AttributeValue::M(HashMap::from([
+            AttributeValue::L(vec![AttributeValue::M(HashMap::from([
                 (
                     "Timestamp".into(),
                     AttributeValue::S(get_timestamp().into()),
@@ -117,7 +117,7 @@ async fn measurement_temperature(
                     "Value".into(),
                     AttributeValue::N(description.measurement_temperature.temperature.to_string()),
                 ),
-            ])),
+            ]))]),
         )
         .expression_attribute_values(":empty_list", AttributeValue::L(vec![]))
         .return_values(aws_sdk_dynamodb::model::ReturnValue::AllNew)
