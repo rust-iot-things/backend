@@ -16,7 +16,7 @@ exports.handler = async (event, context) => {
           .get({
             TableName: "Humidities",
             Key: {
-              id: parseInt(event.pathParameters.id)
+              id: event.pathParameters.id
             }
           })
           .promise();

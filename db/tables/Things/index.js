@@ -16,7 +16,7 @@ exports.handler = async (event, context) => {
           .delete({
             TableName: "Things",
             Key: {
-              id: parseInt(event.pathParameters.id)
+              id: event.pathParameters.id
             }
           })
           .promise();
@@ -27,7 +27,7 @@ exports.handler = async (event, context) => {
           .get({
             TableName: "Things",
             Key: {
-              id: parseInt(event.pathParameters.id)
+              id: event.pathParameters.id
             }
           })
           .promise();
