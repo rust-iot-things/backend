@@ -44,7 +44,7 @@ async fn measurement_humidity(
         .table_name("Humidities")
         .key(
             "id",
-            AttributeValue::N(description.measurement_humidity.id.to_string()),
+            AttributeValue::S(description.measurement_humidity.id.to_string()),
         )
         .update_expression(
             "set #Measurements = list_append(if_not_exists(#Measurements, :empty_list), :value)",
@@ -78,7 +78,7 @@ async fn measurement_temperature(
         .table_name("Temperatures")
         .key(
             "id",
-            AttributeValue::N(description.measurement_temperature.id.to_string()),
+            AttributeValue::S(description.measurement_temperature.id.to_string()),
         )
         .update_expression(
             "set #Measurements = list_append(if_not_exists(#Measurements, :empty_list), :value)",
