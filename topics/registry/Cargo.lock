@@ -973,7 +973,7 @@ dependencies = [
 [[package]]
 name = "protocol"
 version = "0.1.0"
-source = "git+https://github.com/rust-iot-things/protocol#6c257cd0c070b875011df635ef44733849765789"
+source = "git+https://github.com/rust-iot-things/protocol#323a65cf828db4e6ee81bbf1e248aece7c14638a"
 dependencies = [
  "serde",
  "serde_json",

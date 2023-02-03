@@ -24,7 +24,7 @@ async fn func(registry: LambdaEvent<Value>) -> Result<(), Error> {
 
 async fn get_name_by_id(
     dynamodb: aws_sdk_dynamodb::Client,
-    id: u64,
+    id: u128,
 ) -> std::result::Result<
     aws_sdk_dynamodb::output::GetItemOutput,
     aws_sdk_dynamodb::types::SdkError<aws_sdk_dynamodb::error::GetItemError>,
@@ -38,7 +38,7 @@ async fn get_name_by_id(
         .await
 }
 
-pub async fn add_thing(client: aws_sdk_dynamodb::Client, id: u64) -> Result<(), Error> {
+pub async fn add_thing(client: aws_sdk_dynamodb::Client, id: u128) -> Result<(), Error> {
     let thing_name = "new_thing".to_string();
 
     let id_av = AttributeValue::N(id.to_string());
@@ -70,7 +70,7 @@ async fn request_registration(
     Ok(())
 }
 
-async fn get_name(dynamodb: aws_sdk_dynamodb::Client, id: u64) -> String {
+async fn get_name(dynamodb: aws_sdk_dynamodb::Client, id: u128) -> String {
     let query = get_name_by_id(dynamodb.clone(), id).await;
 
     match query {
@@ -110,7 +110,7 @@ fn get_name_from_item_output(item: GetItemOutput) -> Result<String, String> {
 
 async fn publish_id_name_on_registry(
     iotdataplane: aws_sdk_iotdataplane::Client,
-    id: u64,
+    id: u128,
     thing_name: String,
 ) -> std::result::Result<
     aws_sdk_iotdataplane::output::PublishOutput,
