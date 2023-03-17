@@ -11,18 +11,7 @@ exports.handler = async (event, context) => {
 
   try {
     switch (event.routeKey) {
-      case "DELETE /items/{id}":
-        await dynamo
-          .delete({
-            TableName: "Things",
-            Key: {
-              id: event.pathParameters.id
-            }
-          })
-          .promise();
-        body = `Deleted item ${event.pathParameters.id}`;
-        break;
-      case "GET /items/{id}":
+      case "GET /things/{id}":
         body = await dynamo
           .get({
             TableName: "Things",
@@ -32,22 +21,34 @@ exports.handler = async (event, context) => {
           })
           .promise();
         break;
-      case "GET /items":
+      case "GET /things":
         body = await dynamo.scan({ TableName: "Things" }).promise();
         break;
-      case "PUT /items":
+      case "PUT /things/{id}":
         let requestJSON = JSON.parse(event.body);
+        console.log(`requestedJSON: ${event.routeKey}`)
         await dynamo
           .put({
             TableName: "Things",
             Item: {
-              id: requestJSON.id,
+              id: event.pathParameters.id,
               name: requestJSON.name
             }
           })
           .promise();
-        body = `Put item ${requestJSON.id}`;
+        body = `Put thing ${requestJSON.id}`;
         break;
+      case "GET /things/{id}/{db}":
+        body = await dynamo
+          .get({
+            TableName: event.pathParameters.db,
+            Key: {
+              id: event.pathParameters.id
+            }
+          })
+          .promise();
+        break;
+
       default:
         throw new Error(`Unsupported route: "${event.routeKey}"`);
     }

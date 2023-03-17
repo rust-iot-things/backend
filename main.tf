@@ -4,13 +4,13 @@ module "db" {
 }
 
 module "registry-lambda" {
-  source = "./topics/registry/terraform"
+  source      = "./topics/registry/terraform"
   environment = var.environment
-  topic = "registry"
+  topic       = "registry"
 }
 
 module "thing-input-lambda" {
-  source = "./topics/thing_input/terraform"
+  source      = "./topics/thing_input/terraform"
   environment = var.environment
-  topic = "thing_input"
+  topic       = "thing_input"
 }

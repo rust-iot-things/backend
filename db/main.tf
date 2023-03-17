@@ -80,3 +80,9 @@ module "rust-iot-thing-humidities-lambda" {
   table_name  = "Humidities"
   lambda_arn  = aws_iam_role.iam_for_lambda.arn
 }
+
+module "rust-iot-thing-api-gateway-lambda" {
+  source      = "./api-gateway"
+  environment = var.environment
+  lambda_arn  = aws_iam_role.iam_for_lambda.arn
+}
