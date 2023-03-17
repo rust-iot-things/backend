@@ -36,7 +36,7 @@ resource "aws_lambda_permission" "apigw_lambda_things_id_db" {
 }
 
 resource "aws_lambda_permission" "apigw_lambda_things_id_lamp" {
-  statement_id  = "APIGatewayThingsIDDB"
+  statement_id  = "APIGatewayThingsIDLamp"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.lambda.function_name
   principal     = "apigateway.amazonaws.com"
@@ -45,7 +45,7 @@ resource "aws_lambda_permission" "apigw_lambda_things_id_lamp" {
 }
 
 resource "aws_lambda_permission" "apigw_lambda_things_id_rgb" {
-  statement_id  = "APIGatewayThingsIDDB"
+  statement_id  = "APIGatewayThingsIDRGB"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.lambda.function_name
   principal     = "apigateway.amazonaws.com"
