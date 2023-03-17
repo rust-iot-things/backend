@@ -11,6 +11,17 @@ defaults:
 
 
 jobs:
+  build-lamp:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
+      matrix:
+          include:
+            - environment: prod
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./db/microservices/lamp
+
   build-registry:
     runs-on: ubuntu-latest
     strategy:

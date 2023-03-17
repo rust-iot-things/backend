@@ -1,0 +1,28 @@
+
+name: "thing-input lambda"
+description: "Building the thing-input lambda using rust"
+runs:
+  using: "composite"
+  steps:
+  - uses: actions/checkout@v3
+  - uses: dtolnay/rust-toolchain@stable
+  - name: Install Cargo Lambda
+    uses: jaxxstorm/action-install-gh-release@v1.9.0
+    with:
+      repo: cargo-lambda/cargo-lambda
+      tag: v0.14.0
+      platform: linux
+      arch: x86_64
+  - uses: goto-bus-stop/setup-zig@v2
+  - uses: Swatinem/rust-cache@v2
+    with:
+      workspaces: "topics/thing_input"
+  - name: Release Build
+    shell: bash
+    run: cargo lambda build --release --output-format=zip --manifest-path=topics/thing_input/Cargo.toml
+  - name: Upload artifacts
+    uses: actions/upload-artifact@v2
+    with: 
+      name: bootstrap.zip
+      path: topics/thing_input/target/lambda/thing_input_lambda
+      if-no-files-found: error
