@@ -1,6 +1,6 @@
 
-name: "thing-input lambda"
-description: "Building the thing-input lambda using rust"
+name: "lamp lambda"
+description: "Building the lamp lambda using rust"
 runs:
   using: "composite"
   steps:
@@ -16,13 +16,13 @@ runs:
   - uses: goto-bus-stop/setup-zig@v2
   - uses: Swatinem/rust-cache@v2
     with:
-      workspaces: "topics/thing_input"
+      workspaces: "db/microservices/lamp"
   - name: Release Build
     shell: bash
-    run: cargo lambda build --release --output-format=zip --manifest-path=topics/thing_input/Cargo.toml
+    run: cargo lambda build --release --output-format=zip --manifest-path=db/microservices/lamp/Cargo.toml
   - name: Upload artifacts
     uses: actions/upload-artifact@v2
     with: 
       name: bootstrap.zip
-      path: topics/thing_input/target/lambda/thing_input_lambda
+      path: db/microservices/lamp/target/lambda/lamp_lambda
       if-no-files-found: error
