@@ -108,22 +108,22 @@ resource "aws_iam_role_policy_attachment" "function_logging_policy_attachment" {
 
 ### API Gateway
 
-resource "aws_lambda_permission" "apigw_lambda_things_id_lamp" {
-  statement_id  = "APIGatewayThingsIDLamp"
+resource "aws_lambda_permission" "apigw_lambda_things_id" {
+  statement_id  = "APIGatewayThingsID${var.name}"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.rust-iot-thing-lambda.function_name
   principal     = "apigateway.amazonaws.com"
 
-  source_arn = "${var.execution_arn}/*/*/things/{id}/lamp"
+  source_arn = "${var.execution_arn}/*/*/things/{id}/${var.name}"
 }
 
-resource "aws_apigatewayv2_route" "route-get-things-id-lamp" {
+resource "aws_apigatewayv2_route" "route-get-things-id" {
   api_id    = var.id
-  route_key = "PUT /things/{id}/lamp"
-  target    = "integrations/${aws_apigatewayv2_integration.integration_lamp.id}"
+  route_key = "PUT /things/{id}/${var.name}"
+  target    = "integrations/${aws_apigatewayv2_integration.integration.id}"
 }
 
-resource "aws_apigatewayv2_integration" "integration_lamp" {
+resource "aws_apigatewayv2_integration" "integration" {
   api_id           = var.id
   integration_type = "AWS_PROXY"
 
