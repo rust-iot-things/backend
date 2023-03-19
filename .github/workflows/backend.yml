@@ -45,7 +45,7 @@ jobs:
       - uses: ./topics/thing_input/
 
   terraform:
-    needs: [build-registry, build-thing-input]
+    needs: [build-registry, build-thing-input, build-lamp]
     name:   ${{ matrix.environment }}
     runs-on: ubuntu-latest
     strategy:
