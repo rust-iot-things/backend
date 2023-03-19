@@ -1,5 +1,5 @@
 [package]
-name = "thing_input_lambda"
+name = "lamp_lambda"
 version = "0.1.0"
 edition = "2021"
 

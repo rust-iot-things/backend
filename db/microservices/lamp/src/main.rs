@@ -11,6 +11,18 @@ async fn main() -> Result<(), Error> {
 }
 
 async fn lamp(sth: LambdaEvent<Value>) -> Result<(), Error> {
-    println!("{:?}", sth.payload);
+    println!("Hello World from Lamp!");
+    let config = aws_config::load_from_env().await;
+    let iotdataplane = aws_sdk_iotdataplane::Client::new(&config);
+    let res = format!("{:?}", sth);
+    iotdataplane
+        .publish()
+        .topic("lamp")
+        .qos(1)
+        .payload(aws_smithy_types::Blob::new(res))
+        .send()
+        .await
+        .unwrap();
+    println!("{:?}", sth);
     Ok(())
 }

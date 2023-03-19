@@ -106,32 +106,37 @@ resource "aws_iam_role_policy_attachment" "function_logging_policy_attachment" {
   policy_arn = aws_iam_policy.function_logging_policy.arn
 }
 
-resource "aws_iam_policy" "rust-iot-thing-dynamodb-policy" {
-  name        = "rust-iot-thing-${var.name}-dynamodb-policy"
-  path        = "/"
-  description = "Acces DynamDB"
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Sid = "VisualEditor0"
-        Action = [
-          "dynamodb:BatchGetItem",
-          "dynamodb:BatchWriteItem",
-          "dynamodb:PutItem",
-          "dynamodb:GetItem",
-          "dynamodb:Scan",
-          "dynamodb:Query",
-          "dynamodb:UpdateItem"
-        ]
-        Effect   = "Allow"
-        Resource = "*"
-      },
-    ]
-  })
+### API Gateway
+
+resource "aws_lambda_permission" "apigw_lambda_things_id_lamp" {
+  statement_id  = "APIGatewayThingsIDLamp"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.rust-iot-thing-lambda.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = "${var.execution_arn}/*/*/things/{id}/lamp"
 }
 
-resource "aws_iam_role_policy_attachment" "rust-iot-thing-dynamodb-policy-attachment" {
-  role       = aws_iam_role.rust-iot-thing-role.id
-  policy_arn = aws_iam_policy.rust-iot-thing-dynamodb-policy.arn
+resource "aws_apigatewayv2_route" "route-get-things-id-lamp" {
+  api_id    = var.id
+  route_key = "PUT /things/{id}/lamp"
+  target    = "integrations/${aws_apigatewayv2_integration.integration_lamp.id}"
+}
+
+resource "aws_apigatewayv2_integration" "integration_lamp" {
+  api_id           = var.id
+  integration_type = "AWS_PROXY"
+
+  connection_type      = "INTERNET"
+  integration_method   = "POST"
+  integration_uri      = aws_lambda_function.rust-iot-thing-lambda.invoke_arn
+  passthrough_behavior = "WHEN_NO_MATCH"
+
+  payload_format_version = "2.0"
+
+  lifecycle {
+    ignore_changes = [
+      passthrough_behavior
+    ]
+  }
 }

@@ -1,14 +1,11 @@
 variable "environment" {
   type = string
 }
-variable "topic" {
+
+variable "id" {
   type = string
 }
 
-variable "name" {
-  type = string
-}
-
-variable "path" {
+variable "execution_arn" {
   type = string
 }

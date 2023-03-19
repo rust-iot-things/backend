@@ -35,24 +35,6 @@ resource "aws_lambda_permission" "apigw_lambda_things_id_db" {
   source_arn = "${aws_apigatewayv2_api.api.execution_arn}/*/*/things/{id}/{db}"
 }
 
-resource "aws_lambda_permission" "apigw_lambda_things_id_lamp" {
-  statement_id  = "APIGatewayThingsIDLamp"
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.lambda.function_name
-  principal     = "apigateway.amazonaws.com"
-
-  source_arn = "${aws_apigatewayv2_api.api.execution_arn}/*/*/things/{id}/{lamp}"
-}
-
-resource "aws_lambda_permission" "apigw_lambda_things_id_rgb" {
-  statement_id  = "APIGatewayThingsIDRGB"
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.lambda.function_name
-  principal     = "apigateway.amazonaws.com"
-
-  source_arn = "${aws_apigatewayv2_api.api.execution_arn}/*/*/things/{id}/{rgb}"
-}
-
 resource "aws_apigatewayv2_api" "api" {
   name          = "rust-iot-thing-crud"
   protocol_type = "HTTP"
@@ -126,4 +108,13 @@ resource "aws_apigatewayv2_integration" "integration" {
       passthrough_behavior
     ]
   }
+}
+
+## microservices
+
+module "thing-lamp-microsverice" {
+  source        = "./../microservices/lamp/terraform"
+  environment   = var.environment
+  id            = aws_apigatewayv2_api.api.id
+  execution_arn = aws_apigatewayv2_api.api.execution_arn
 }

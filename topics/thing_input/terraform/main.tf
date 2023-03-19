@@ -1,5 +1,7 @@
 module "rust-iot-thing-registry-lambda" {
-  source = "./../../aws-lambda"
+  source      = "./../../aws-lambda"
   environment = var.environment
-  topic = var.topic
+  topic       = var.topic
+  name        = var.name
+  path        = var.path
 }
