@@ -20,7 +20,7 @@ jobs:
             - environment: prod
     steps:
       - uses: actions/checkout@v3
-      - uses: ./db/microservices/lamp
+      - uses: ./db/microservices/lamp/
 
   build-registry:
     runs-on: ubuntu-latest
@@ -67,6 +67,10 @@ jobs:
         with:
           name: bootstrap.zip
           path: topics/thing_input/target/lambda/thing_input_lambda/
+      - uses: actions/download-artifact@v3
+        with:
+          name: bootstrap.zip
+          path: db/microservices/lamp/target/lambda/lamp_lambda/
       - uses: hashicorp/setup-terraform@v1
         with:
           terraform_wrapper: false

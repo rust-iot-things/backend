@@ -26,4 +26,3 @@ runs:
       name: bootstrap.zip
       path: topics/registry/target/lambda/registry_lambda
       if-no-files-found: error
-      
