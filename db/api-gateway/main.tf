@@ -118,3 +118,10 @@ module "thing-lamp-microsverice" {
   id            = aws_apigatewayv2_api.api.id
   execution_arn = aws_apigatewayv2_api.api.execution_arn
 }
+
+module "thing-rgb-microsverice" {
+  source        = "./../microservices/rgb/terraform"
+  environment   = var.environment
+  id            = aws_apigatewayv2_api.api.id
+  execution_arn = aws_apigatewayv2_api.api.execution_arn
+}

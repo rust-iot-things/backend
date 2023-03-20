@@ -1,0 +1,28 @@
+
+name: "rgb lambda"
+description: "Building the rgb lambda using rust"
+runs:
+  using: "composite"
+  steps:
+  - uses: actions/checkout@v3
+  - uses: dtolnay/rust-toolchain@stable
+  - name: Install Cargo Lambda
+    uses: jaxxstorm/action-install-gh-release@v1.9.0
+    with:
+      repo: cargo-lambda/cargo-lambda
+      tag: v0.14.0
+      platform: linux
+      arch: x86_64
+  - uses: goto-bus-stop/setup-zig@v2
+  - uses: Swatinem/rust-cache@v2
+    with:
+      workspaces: "db/microservices/rgb"
+  - name: Release Build
+    shell: bash
+    run: cargo lambda build --release --output-format=zip --manifest-path=db/microservices/rgb/Cargo.toml
+  - name: Upload artifacts
+    uses: actions/upload-artifact@v2
+    with: 
+      name: bootstrap.zip
+      path: db/microservices/rgb/target/lambda/rgb_lambda
+      if-no-files-found: error
